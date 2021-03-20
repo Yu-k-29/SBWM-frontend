@@ -82,7 +82,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             },
             // ページ下部のナビゲーションメニューに相当する各ページビュー
             children: [
-              MyTodoApp(),
+              OcrList(),
               ImagePickerView(),
               test(),
 

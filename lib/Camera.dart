@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:cloudinary_client/cloudinary_client.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+import 'dart:convert';
 class ImagePickerView extends StatefulWidget {
   @override
   State createState() {
@@ -11,6 +14,17 @@ class ImagePickerView extends StatefulWidget {
 
 //camera
 class Camera extends State<ImagePickerView> {
+  Future uploadImage(File image) async {
+    CloudinaryClient client = new CloudinaryClient('875774284867727', 'ie6_7wmFuWElndBI5b355c8YcpY', 'dagcggcea');
+    await client.uploadImage(image.path)
+        .then((result){
+          String tmp = result.url.toString();
+
+          print("RESPOINDSNSDFI:: ${_postBackend(tmp)}==> result");
+      print("CLOUDINARY:: ${result.secure_url}==> result");
+    })
+        .catchError((error) => print("ERROR_CLOUDINARY::  $error"));
+  }
   File imageFile;
   //タイトル
   String ImageTitle = "タイトル名:";
@@ -215,9 +229,23 @@ class Camera extends State<ImagePickerView> {
     if (imageFile == null) {
       return;
     }
+    uploadImage(imageFile);
     setState(() {
       this.imageFile = imageFile;
     });
+  }
+  Future<ApiResults> _postBackend(String requests) async {
+    // 撮影/選択したFileが返ってくる
+    String url = 'http://10.0.2.2/load:5000';
+    var request = new SampleRequest(URL: requests);
+    final response = await http.post(url,
+        body: json.encode(request.toJson()),
+        headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      return ApiResults.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed');
+    }
   }
   void _deleteImage()  {
     setState(() {
@@ -225,4 +253,23 @@ class Camera extends State<ImagePickerView> {
     });
   }
 }
-
+class SampleRequest {
+  final String URL;
+  SampleRequest({
+    this.URL
+  });
+  Map<String, dynamic> toJson() => {
+    'img_file':URL
+  };
+}
+class ApiResults {
+  final String message;
+  ApiResults({
+    this.message,
+  });
+  factory ApiResults.fromJson(Map<String, dynamic> json) {
+    return ApiResults(
+      message: json['message'],
+    );
+  }
+}

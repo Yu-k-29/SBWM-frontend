@@ -1,36 +1,19 @@
 import 'package:flutter/material.dart';
 
-/*
-void main() {
-  // 最初に表示するWidget
-  runApp(MyTodoApp());
-}
-*/
+class OcrList extends StatefulWidget {
+  String title;
 
-class MyTodoApp extends StatelessWidget {
+  OcrList({Key key,this.title}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      // アプリ名
-      title: 'My Todo App',
-      theme: ThemeData(
-        // テーマカラー
-        primarySwatch: Colors.blue,
-      ),
-      // リスト一覧画面を表示
-      home: TodoListPage(),
-    );
-  }
+  _OcrListState createState() => _OcrListState();
 }
 
 // リスト一覧画面用Widget
-class TodoListPage extends StatelessWidget {
+class _OcrListState extends State<OcrList> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('リスト一覧画面'),
-      ),
+    return Container(
+      child: Text('h'),
     );
   }
 }
