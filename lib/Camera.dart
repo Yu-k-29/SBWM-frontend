@@ -52,6 +52,7 @@ class Camera extends State<ImagePickerView> {
                     ),
 
                   ),
+<<<<<<< HEAD
                   //Focusしているとき
                   focusedBorder: OutlineInputBorder(
                     borderRadius: new BorderRadius.circular(25.0),
@@ -59,6 +60,14 @@ class Camera extends State<ImagePickerView> {
                       color: Colors.blue,
                       width: 0.5,
                     ),
+=======
+                  (imageFile == null)
+                      ? Icon(Icons.no_sim)
+                      : Image.file(
+                    imageFile,
+                    height: 300.0,
+                    width: 300.0,
+>>>>>>> fdcc309... API接続の確立
                   ),
                   hintText: 'タイトル入力',
                   contentPadding: EdgeInsets.fromLTRB(12,12,12,12),
