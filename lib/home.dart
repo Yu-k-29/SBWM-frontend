@@ -64,7 +64,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       appBar: AppBar(
         title: Text(title2[_screen]),
       ),
-      body: PageView(
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: AssetImage("theme_1.webp")
+              )
+            ),
+          ),
+          PageView(
           controller: _pageController,
           // ページ切り替え時に実行する処理
           // PageViewのonPageChangedはページインデックスを受け取る
@@ -80,7 +90,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             test(),
             MyTodoApp(),
             ImagePickerView(),
-          ]),
+              ])
+          ]
+        ),
 
       bottomNavigationBar: BottomNavigationBar(
         // 現在のページインデックス
