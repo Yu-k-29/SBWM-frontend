@@ -14,72 +14,181 @@ class Camera extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-        body: Container(
-            padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              // 枠線
-              border: Border.all(color: Colors.blue, width: 2),
-              // 角丸
-              borderRadius: BorderRadius.circular(8),
+        persistentFooterButtons: <Widget>[
+          RaisedButton(
+            child: Text(
+              '送信',
             ),
-            child: Container(
+            onPressed: () {
+
+            },
+          ),
+          RaisedButton(
+            child: Text(
+              'キャンセル',
+            ),
+            onPressed: () {
+
+            },
+          ),
+
+        ],
+
+        body:  Container(
               decoration: BoxDecoration(
                 // 枠線
                 border: Border.all(color: Colors.blue, width: 2),
                 // 角丸
                 borderRadius: BorderRadius.circular(8),
               ),
+
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
+                  TextField(
+                   style: new TextStyle(
+                  fontSize: 40.0,
+                  height: 2.0,
+                  color: Colors.black
+                  ),
+                    decoration: InputDecoration(
+                      //Focusしていないとき
+                      enabledBorder: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(25.0),
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                        ),
+                      ),
+                      //Focusしているとき
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(25.0),
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                          width: 0.5,
+                        ),
+                      ),
+                      hintText: 'タイトル入力',
+                      contentPadding: EdgeInsets.all(10.0),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.check,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
 
-                      TextButton(
-                        onPressed: () {
-                          _getImageFromDevice(ImageSource.camera);
-                        },
-                        child: Text('カメラ起動'),
+                  ButtonTheme(
+                    minWidth: 200.0,
+                    height: 60.0,
+                    child: RaisedButton.icon(
+                      icon: const Icon(
+                        Icons.camera_alt,
+                        color: Colors.white,
                       ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.red,
+                      label: const Text('カメラ起動'),
+                      onPressed: () {
+                        _getImageFromDevice(ImageSource.camera);
+                      },
+                      color: Colors.lightBlue,
+                      shape: const StadiumBorder(
+                        side: BorderSide(color: Colors.green),
+                      ),
+                      textColor: Colors.white,
+                    ),
+                  ) ,
+                  ButtonTheme(
+                    minWidth: 200.0,
+                    height: 60.0,
+                     child: RaisedButton.icon(
+                       icon: const Icon(
+                         Icons.folder_open,
+                         color: Colors.white,
+                       ),
+                       label: const Text('アルバムから取得'),
+                       onPressed: () {
+                         _getImageFromDevice(ImageSource.gallery);
+                       },
+                       color: Colors.lightBlue,
+                       shape: const StadiumBorder(
+                         side: BorderSide(color: Colors.green),
+                       ),
+                       textColor: Colors.white,
+                     ),
+                   ),
+
+
+
+
+                      /*RaisedButton(
+
+                        child: const Text('Button'),
+                        color: Colors.white,
+                        shape: const StadiumBorder(
+                          side: BorderSide(color: Colors.green),
                         ),
-                        onPressed: () {
-                          _getImageFromDevice(ImageSource.gallery);
-                        },
-                        child: Text('アルバムから取得'),
-                      ),
+                        onPressed: () {},
+                      ),*/
+
                     ],
                   ),
-                  TextField(
-                      decoration: InputDecoration(
-                          hintText: "入力してください"
-                      )
-                  ),
-                  (imageFile == null)
-                      ? Icon(Icons.no_sim)
-                      : Image.file(
-                    imageFile,
-                    height: 100.0,
-                    width: 100.0,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      _deleteImage();
-                    },
-                    child: Text('画像の消去'),
-                  )
+                      (imageFile == null)
+                          ? Icon(Icons.no_sim)
+                          : Image.file(
+                        imageFile,
+                        height: 300.0,
+                        width: 300.0,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          _deleteImage();
+                        },
+                        child: Text('画像の消去'),
+                      ),
+                  /*TextField(
+                    decoration: InputDecoration(
+                      //Focusしていないとき
+                      enabledBorder: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(25.0),
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                        ),
+                      ),
+                      //Focusしているとき
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(25.0),
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                          width: 3.0,
+                        ),
+                      ),
+                      hintText: 'タイトル入力',
+                      contentPadding: EdgeInsets.all(16.0),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ),*/
+
                 ],
               ),
             )
 
-        )
 
 
-    );
+        );
+
+
+
   }
   // カメラまたはライブラリから画像を取得
   void _getImageFromDevice(ImageSource source) async {
