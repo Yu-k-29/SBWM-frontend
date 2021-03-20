@@ -15,17 +15,17 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   var _titles = ['Button1','Button2'];
   Map <String, String> title1 = {
-    'button1name':'HOME',
-    'button2name':'PROFILE',
-    'button3name':'Camera',
+    'button1name':'PROFILE',
+    'button2name':'Camera',
+    'button3name':'HOME',
   };
   List <String> title2 = [
-    'Home','Profile','Camera'
+    'Camera','Profile','Home'
   ];
   //ページ切替用
   PageController _pageController;
   //ページインデックス保存用
-  int _screen = 0;
+  int _screen = 1;
 
   @override
   void initState() {
@@ -45,15 +45,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   List<BottomNavigationBarItem> myBottomNavBarItems() {
     return [
       BottomNavigationBarItem(
-        icon: Icon(Icons.home),
+        icon: Icon(Icons.cake),
         title: Text('${title1['button1name']}'),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.cake),
+        icon: Icon(Icons.camera),
         title: Text('${title1['button2name']}'),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.camera),
+        icon: Icon(Icons.home),
         title: Text('${title1['button3name']}'),
       ),
     ];
@@ -61,9 +61,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title2[_screen]),
-      ),
+
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -84,9 +82,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             },
             // ページ下部のナビゲーションメニューに相当する各ページビュー
             children: [
-              test(),
               MyTodoApp(),
               ImagePickerView(),
+              test(),
+
+
             ]),
       ),
 

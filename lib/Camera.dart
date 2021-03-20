@@ -30,152 +30,286 @@ class Camera extends State<ImagePickerView> {
     final double deviceWidth = MediaQuery.of(context).size.width;
     return Container(
 
-      decoration: BoxDecoration(
-        // 枠線
-        border: Border.all(color: Colors.blue, width: 2),
-        // 角丸
-        borderRadius: BorderRadius.circular(8),
-      ),
+        decoration: BoxDecoration(
+          // 枠線
+          border: Border.all(color: Colors.blue, width: 2),
+          // 角丸
+          borderRadius: BorderRadius.circular(8),
+        ),
 
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.all(30),
-            child: TextField(
-              decoration: InputDecoration(
-                //Focusしていないとき
-                enabledBorder: new OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(25.0),
-                  borderSide: BorderSide(
-                    color: Colors.black,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.all(30),
+              child: TextField(
+                decoration: InputDecoration(
+                  //Focusしていないとき
+                  enabledBorder: new OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
+
                   ),
-
-                ),
-                //Focusしているとき
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(25.0),
-                  borderSide: BorderSide(
-                    color: Colors.blue,
-                    width: 0.5,
+                  //Focusしているとき
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                      width: 0.5,
+                    ),
                   ),
-                ),
-                hintText: 'タイトル入力',
-                contentPadding: EdgeInsets.fromLTRB(12,12,12,12),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.check,
-                    color: Colors.black,
+                  hintText: 'タイトル入力',
+                  contentPadding: EdgeInsets.fromLTRB(12,12,12,12),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.check,
+                      color: Colors.black,
+                    ),
+
+                    onPressed: () {
+                      setText(inputController.text);
+
+                    },
                   ),
-
-                  onPressed: () {
-                    setText(inputController.text);
-
-                  },
                 ),
               ),
             ),
-          ),
 
 
-          Text(ImageTitle),
+            Text(ImageTitle),
+
+            (imageFile == null)
+                ? Icon(Icons.no_sim)
+                : Image.file(
+              imageFile,
+              height: 300.0,
+              width: 300.0,
+
+            ),
 
 
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
+            /*TextButton(
+              onPressed: () {
+                _deleteImage();
+              },
+              child: Text('画像の消去'),
+            ),*/
 
-              ButtonTheme(
-                minWidth: deviceWidth * 0.45,
-                height: 60.0,
-                child: RaisedButton.icon(
-                  icon: const Icon(
-                    Icons.camera_alt,
-                    color: Colors.white,
-                  ),
-                  label: const Text('カメラ起動'),
-                  onPressed: () {
-                    _getImageFromDevice(ImageSource.camera);
-                  },
-                  color: Colors.lightBlue,
-                  shape: const StadiumBorder(
-                    side: BorderSide(color: Colors.green),
-                  ),
-                  textColor: Colors.white,
+            ButtonTheme(
+              minWidth: deviceWidth * 0.45,
+              height: 60.0,
+              child: RaisedButton.icon(
+                icon: const Icon(
+                  Icons.cloud_upload_outlined,
+                  color: Colors.white,
                 ),
-              ) ,
-              ButtonTheme(
-                minWidth: deviceWidth * 0.3,
-                height: 60.0,
-                child: RaisedButton.icon(
-                  icon: const Icon(
-                    Icons.folder_open,
-                    color: Colors.white,
-                  ),
-                  label: const Text('アルバムから取得'),
-                  onPressed: () {
-                    _getImageFromDevice(ImageSource.gallery);
-                  },
-                  color: Colors.lightBlue,
-                  shape: const StadiumBorder(
-                    side: BorderSide(color: Colors.green),
-                  ),
-                  textColor: Colors.white,
-                ),
-              ),
-
-
-            ],
-          ),
-          (imageFile == null)
-              ? Icon(Icons.no_sim)
-              : Image.file(
-            imageFile,
-            height: 300.0,
-            width: 300.0,
-          ),
-          TextButton(
-            onPressed: () {
-              _deleteImage();
-            },
-            child: Text('画像の消去'),
-          ),
-
-          // ignore: deprecated_member_use
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              RaisedButton(
-                child: Text(
-                  'キャンセル',
-                ),
-                onPressed: () {
+                label: const Text('送信'),
+                onPressed:  !(imageFile != null) ? null : () {
 
                 },
-              ),
-              RaisedButton(
-                child: Text(
-                  '送信',
+                /*onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) {
+                      return AlertDialog(
+                        title: Text("確認"),
+                        content: Text("送信しますか？"),
+                        actions: <Widget>[
+                          // ボタン領域
+                          FlatButton(
+                            child: Text("Cancel"),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                          FlatButton(
+                            child: Text("OK"),
+                            onPressed: () {
+
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );*/
+
+                color: Colors.greenAccent,
+                shape: const StadiumBorder(
+                  side: BorderSide(color: Colors.green),
                 ),
-                onPressed: () {
-
-                },
+                textColor: Colors.white,
               ),
-            ],
-
-          )
+            ) ,
 
 
 
 
-        ],
-      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+
+                ButtonTheme(
+                  minWidth: deviceWidth * 0.45,
+                  height: 60.0,
+                  child: RaisedButton.icon(
+                    icon: const Icon(
+                      Icons.camera_alt,
+                      color: Colors.white,
+                    ),
+                    label: const Text('カメラ起動'),
+                    onPressed: () {
+                      _getImageFromDevice(ImageSource.camera);
+                    },
+                    color: Colors.lightBlue,
+                    shape: const StadiumBorder(
+                      side: BorderSide(color: Colors.green),
+                    ),
+                    textColor: Colors.white,
+                  ),
+                ) ,
+                ButtonTheme(
+                  minWidth: deviceWidth * 0.45,
+                  height: 60.0,
+                  child: RaisedButton.icon(
+                    icon: const Icon(
+                      Icons.folder_open,
+                      color: Colors.white,
+                    ),
+                    label: const Text('アルバムから取得'),
+                    onPressed: () {
+                      _getImageFromDevice(ImageSource.gallery);
+                      /*showDialog(
+                        context: context,
+                        builder: (_) {
+                          return AlertDialog(
+                            title: Text("確認"),
+                            content: Text("メッセージ"),
+                            actions: <Widget>[
+                              // ボタン領域
+                              FlatButton(
+                                child: Text("Cancel"),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                              FlatButton(
+                                child: Text("OK"),
+                                onPressed: () {
+
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );*/
+                    },
+                    color: Colors.lightBlue,
+                    shape: const StadiumBorder(
+                      side: BorderSide(color: Colors.green),
+                    ),
+                    textColor: Colors.white,
+                  ),
+                ),
+
+
+              ],
+            ),
+
+
+              // ignore: deprecated_member_use
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                /*RaisedButton(
+                  child: Text(
+                    'キャンセル',
+                  ),
+                  onPressed: () {
+
+                  },
+                ),*/
+               /* ButtonTheme(
+                  minWidth: deviceWidth * 0.45,
+                  height: 60.0,
+                  child: RaisedButton.icon(
+                    icon: const Icon(
+                      Icons.cloud_upload_outlined,
+                      color: Colors.white,
+                    ),
+                    label: const Text('送信'),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) {
+                          return AlertDialog(
+                            title: Text("確認"),
+                            content: Text("送信しますか？"),
+                            actions: <Widget>[
+                              // ボタン領域
+                              FlatButton(
+                                child: Text("Cancel"),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                              FlatButton(
+                                child: Text("OK"),
+                                onPressed: () {
+
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    color: Colors.greenAccent,
+                    shape: const StadiumBorder(
+                      side: BorderSide(color: Colors.green),
+                    ),
+                    textColor: Colors.white,
+                  ),
+                ) ,*/
+                /*RaisedButton(
+                  child: Text(
+                    '送信',
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return AlertDialog(
+                          title: Text("確認"),
+                          content: Text("送信しますか？"),
+                          actions: <Widget>[
+                            // ボタン領域
+                            FlatButton(
+                              child: Text("Cancel"),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                            FlatButton(
+                              child: Text("OK"),
+                              onPressed: () {
+
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),*/
+              ],
+
+            )
 
 
 
-    );
+
+          ],
+        ),
+
+
+
+        );
 
 
 
@@ -198,5 +332,4 @@ class Camera extends State<ImagePickerView> {
     });
   }
 }
-
 
