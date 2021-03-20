@@ -36,6 +36,7 @@ class Camera extends State<ImagePickerView> {
           // 角丸
           borderRadius: BorderRadius.circular(8),
         ),
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -51,13 +52,13 @@ class Camera extends State<ImagePickerView> {
                     ),
 
                   ),
-
-                  (imageFile == null)
-                      ? Icon(Icons.no_sim)
-                      : Image.file(
-                    imageFile,
-                    height: 300.0,
-                    width: 300.0,
+                  //Focusしているとき
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                      width: 0.5,
+                    ),
                   ),
                   hintText: 'タイトル入力',
                   contentPadding: EdgeInsets.fromLTRB(12,12,12,12),
