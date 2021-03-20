@@ -11,10 +11,8 @@ void main() {
 class test extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('ホーム画面'),
-      ),
+    return Center(
+      child: Text('jfeijefio')
     );
   }
 }
