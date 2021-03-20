@@ -26,26 +26,10 @@ class Camera extends State<ImagePickerView> {
 
   @override
   Widget build(BuildContext context) {
+    final double deviceHeight = MediaQuery.of(context).size.height;
+    final double deviceWidth = MediaQuery.of(context).size.width;
     return Container(
-        /*persistentFooterButtons: <Widget>[
-          RaisedButton(
-            child: Text(
-              '送信',
-            ),
-            onPressed: () {
 
-            },
-          ),
-          RaisedButton(
-            child: Text(
-              'キャンセル',
-            ),
-            onPressed: () {
-
-            },
-          ),
-
-        ],*/
         decoration: BoxDecoration(
           // 枠線
           border: Border.all(color: Colors.blue, width: 2),
@@ -103,7 +87,7 @@ class Camera extends State<ImagePickerView> {
               children: <Widget>[
 
                 ButtonTheme(
-                  minWidth: 200.0,
+                  minWidth: deviceWidth * 0.45,
                   height: 60.0,
                   child: RaisedButton.icon(
                     icon: const Icon(
@@ -122,7 +106,7 @@ class Camera extends State<ImagePickerView> {
                   ),
                 ) ,
                 ButtonTheme(
-                  minWidth: 200.0,
+                  minWidth: deviceWidth * 0.3,
                   height: 60.0,
                   child: RaisedButton.icon(
                     icon: const Icon(
