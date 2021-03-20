@@ -63,8 +63,8 @@ class Camera extends State {
                       ? Icon(Icons.no_sim)
                       : Image.file(
                     imageFile,
-                    height: 100.0,
-                    width: 100.0,
+                    height: 300.0,
+                    width: 300.0,
                   ),
                   TextButton(
                     onPressed: () {
