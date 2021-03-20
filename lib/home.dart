@@ -64,35 +64,33 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       appBar: AppBar(
         title: Text(title2[_screen]),
       ),
-      body: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.fill,
-                image: AssetImage("theme_1.webp")
-              )
-            ),
-          ),
-          PageView(
-          controller: _pageController,
-          // ページ切り替え時に実行する処理
-          // PageViewのonPageChangedはページインデックスを受け取る
-          // 以下ではページインデックスをindexとする
-          onPageChanged: (index) {
-            setState(() {
-              // ページインデックスを更新
-              _screen = index;
-            });
-          },
-          // ページ下部のナビゲーションメニューに相当する各ページビュー
-          children: [
-            test(),
-            MyTodoApp(),
-            ImagePickerView(),
-              ])
-          ]
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/theme_4.webp'),
+            fit: BoxFit.cover
+          )
         ),
+        child: PageView(
+            controller: _pageController,
+            // ページ切り替え時に実行する処理
+            // PageViewのonPageChangedはページインデックスを受け取る
+            // 以下ではページインデックスをindexとする
+            onPageChanged: (index) {
+              setState(() {
+                // ページインデックスを更新
+                _screen = index;
+              });
+            },
+            // ページ下部のナビゲーションメニューに相当する各ページビュー
+            children: [
+              test(),
+              MyTodoApp(),
+              ImagePickerView(),
+            ]),
+      ),
+
+
 
       bottomNavigationBar: BottomNavigationBar(
         // 現在のページインデックス
@@ -113,10 +111,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         // 定義済のナビゲーションメニューのアイテムリスト
         items: myBottomNavBarItems(),
       ),
-
-
-
-
     );
   }
 }
