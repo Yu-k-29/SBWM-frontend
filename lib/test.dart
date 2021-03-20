@@ -29,6 +29,7 @@ class testState extends State<test> {
           ],
         ),
       )
+
     );
   }
   Future getData() async{ //Future xxx async{} という記法
