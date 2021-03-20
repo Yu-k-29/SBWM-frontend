@@ -8,78 +8,193 @@ class ImagePickerView extends StatefulWidget {
     return Camera();
   }
 }
+
 //camera
-class Camera extends State {
+class Camera extends State<ImagePickerView> {
   File imageFile;
+  //タイトル
+  String ImageTitle = "タイトル名:";
+  // 入力された内容を保持するコントローラ
+  final inputController = TextEditingController();
+  //入力された時の処理
+  void setText (String s){
+    setState(() {
+      ImageTitle = s;
+    });
+  }
+  // 表示用の変数
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-        body: Container(
-            padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              // 枠線
-              border: Border.all(color: Colors.blue, width: 2),
-              // 角丸
-              borderRadius: BorderRadius.circular(8),
+    return Container(
+        /*persistentFooterButtons: <Widget>[
+          RaisedButton(
+            child: Text(
+              '送信',
             ),
-            child: Container(
-              decoration: BoxDecoration(
-                // 枠線
-                border: Border.all(color: Colors.blue, width: 2),
-                // 角丸
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                children: <Widget>[
+            onPressed: () {
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
+            },
+          ),
+          RaisedButton(
+            child: Text(
+              'キャンセル',
+            ),
+            onPressed: () {
 
-                      TextButton(
-                        onPressed: () {
-                          _getImageFromDevice(ImageSource.camera);
-                        },
-                        child: Text('カメラ起動'),
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.red,
-                        ),
-                        onPressed: () {
-                          _getImageFromDevice(ImageSource.gallery);
-                        },
-                        child: Text('アルバムから取得'),
-                      ),
-                    ],
+            },
+          ),
+
+        ],*/
+        decoration: BoxDecoration(
+          // 枠線
+          border: Border.all(color: Colors.blue, width: 2),
+          // 角丸
+          borderRadius: BorderRadius.circular(8),
+        ),
+
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.all(30),
+              child: TextField(
+                decoration: InputDecoration(
+                  //Focusしていないとき
+                  enabledBorder: new OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                    ),
+
                   ),
-                  TextField(
-                      decoration: InputDecoration(
-                          hintText: "入力してください"
-                      )
+                  //Focusしているとき
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                      width: 0.5,
+                    ),
                   ),
-                  (imageFile == null)
-                      ? Icon(Icons.no_sim)
-                      : Image.file(
-                    imageFile,
-                    height: 100.0,
-                    width: 100.0,
-                  ),
-                  TextButton(
+                  hintText: 'タイトル入力',
+                  contentPadding: EdgeInsets.fromLTRB(12,12,12,12),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.check,
+                      color: Colors.black,
+                    ),
+
                     onPressed: () {
-                      _deleteImage();
+                      setText(inputController.text);
+
                     },
-                    child: Text('画像の消去'),
-                  )
-                ],
+                  ),
+                ),
               ),
+            ),
+
+
+            Text(ImageTitle),
+
+
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+
+                ButtonTheme(
+                  minWidth: 200.0,
+                  height: 60.0,
+                  child: RaisedButton.icon(
+                    icon: const Icon(
+                      Icons.camera_alt,
+                      color: Colors.white,
+                    ),
+                    label: const Text('カメラ起動'),
+                    onPressed: () {
+                      _getImageFromDevice(ImageSource.camera);
+                    },
+                    color: Colors.lightBlue,
+                    shape: const StadiumBorder(
+                      side: BorderSide(color: Colors.green),
+                    ),
+                    textColor: Colors.white,
+                  ),
+                ) ,
+                ButtonTheme(
+                  minWidth: 200.0,
+                  height: 60.0,
+                  child: RaisedButton.icon(
+                    icon: const Icon(
+                      Icons.folder_open,
+                      color: Colors.white,
+                    ),
+                    label: const Text('アルバムから取得'),
+                    onPressed: () {
+                      _getImageFromDevice(ImageSource.gallery);
+                    },
+                    color: Colors.lightBlue,
+                    shape: const StadiumBorder(
+                      side: BorderSide(color: Colors.green),
+                    ),
+                    textColor: Colors.white,
+                  ),
+                ),
+
+
+              ],
+            ),
+            (imageFile == null)
+                ? Icon(Icons.no_sim)
+                : Image.file(
+              imageFile,
+              height: 300.0,
+              width: 300.0,
+            ),
+            TextButton(
+              onPressed: () {
+                _deleteImage();
+              },
+              child: Text('画像の消去'),
+            ),
+
+              // ignore: deprecated_member_use
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                RaisedButton(
+                  child: Text(
+                    'キャンセル',
+                  ),
+                  onPressed: () {
+
+                  },
+                ),
+                RaisedButton(
+                  child: Text(
+                    '送信',
+                  ),
+                  onPressed: () {
+
+                  },
+                ),
+              ],
+
             )
 
-        )
 
 
-    );
+
+          ],
+        ),
+
+
+
+        );
+
+
+
   }
   // カメラまたはライブラリから画像を取得
   void _getImageFromDevice(ImageSource source) async {
