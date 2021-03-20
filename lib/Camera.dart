@@ -27,7 +27,7 @@ class Camera extends State<ImagePickerView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        persistentFooterButtons: <Widget>[
+        /*persistentFooterButtons: <Widget>[
           RaisedButton(
             child: Text(
               '送信',
@@ -45,7 +45,7 @@ class Camera extends State<ImagePickerView> {
             },
           ),
 
-        ],
+        ],*/
         decoration: BoxDecoration(
           // 枠線
           border: Border.all(color: Colors.blue, width: 2),
@@ -158,126 +158,36 @@ class Camera extends State<ImagePickerView> {
               child: Text('画像の消去'),
             ),
 
+              // ignore: deprecated_member_use
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                RaisedButton(
+                  child: Text(
+                    'キャンセル',
+                  ),
+                  onPressed: () {
+
+                  },
+                ),
+                RaisedButton(
+                  child: Text(
+                    '送信',
+                  ),
+                  onPressed: () {
+
+                  },
+                ),
+              ],
+
+            )
+
+
+
+
           ],
         ),
-
-
-        /*body:  Container(
-              decoration: BoxDecoration(
-                // 枠線
-                border: Border.all(color: Colors.blue, width: 2),
-                // 角丸
-                borderRadius: BorderRadius.circular(8),
-              ),
-
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.all(30),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        //Focusしていないとき
-                        enabledBorder: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(25.0),
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                          ),
-
-                        ),
-                        //Focusしているとき
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(25.0),
-                          borderSide: BorderSide(
-                            color: Colors.blue,
-                            width: 0.5,
-                          ),
-                        ),
-                        hintText: 'タイトル入力',
-                        contentPadding: EdgeInsets.fromLTRB(12,12,12,12),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            Icons.check,
-                            color: Colors.black,
-                          ),
-
-                          onPressed: () {
-                            setText(inputController.text);
-
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-
-
-                  Text(ImageTitle),
-
-
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-
-                  ButtonTheme(
-                    minWidth: 200.0,
-                    height: 60.0,
-                    child: RaisedButton.icon(
-                      icon: const Icon(
-                        Icons.camera_alt,
-                        color: Colors.white,
-                      ),
-                      label: const Text('カメラ起動'),
-                      onPressed: () {
-                        _getImageFromDevice(ImageSource.camera);
-                      },
-                      color: Colors.lightBlue,
-                      shape: const StadiumBorder(
-                        side: BorderSide(color: Colors.green),
-                      ),
-                      textColor: Colors.white,
-                    ),
-                  ) ,
-                  ButtonTheme(
-                    minWidth: 200.0,
-                    height: 60.0,
-                     child: RaisedButton.icon(
-                       icon: const Icon(
-                         Icons.folder_open,
-                         color: Colors.white,
-                       ),
-                       label: const Text('アルバムから取得'),
-                       onPressed: () {
-                         _getImageFromDevice(ImageSource.gallery);
-                       },
-                       color: Colors.lightBlue,
-                       shape: const StadiumBorder(
-                         side: BorderSide(color: Colors.green),
-                       ),
-                       textColor: Colors.white,
-                     ),
-                   ),
-
-
-                    ],
-                  ),
-                      (imageFile == null)
-                          ? Icon(Icons.no_sim)
-                          : Image.file(
-                        imageFile,
-                        height: 300.0,
-                        width: 300.0,
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          _deleteImage();
-                        },
-                        child: Text('画像の消去'),
-                      ),
-
-                ],
-              ),
-            )*/
 
 
 
