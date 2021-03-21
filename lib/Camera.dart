@@ -5,6 +5,7 @@ import 'package:cloudinary_client/cloudinary_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'dart:convert';
+import 'profile.dart';
 class ImagePickerView extends StatefulWidget {
   @override
   State createState() {
@@ -19,8 +20,8 @@ class Camera extends State<ImagePickerView> {
     await client.uploadImage(image.path)
         .then((result){
           String tmp = result.url.toString();
-
-          print("RESPOINDSNSDFI:: ${_postBackend(tmp)}==> result");
+          _postBackend(tmp);
+          print("RESPOINDSNSDFI:: ==> result");
       print("CLOUDINARY:: ${result.secure_url}==> result");
     })
         .catchError((error) => print("ERROR_CLOUDINARY::  $error"));
@@ -140,7 +141,7 @@ class Camera extends State<ImagePickerView> {
                     ),
                     label: const Text('送信'),
                     onPressed:  !(imageFile != null) ? null : () {
-
+                      uploadImage(imageFile);
                     },
 
 
@@ -200,7 +201,6 @@ class Camera extends State<ImagePickerView> {
                       ),
                     ),
 
-
                   ],
                 ),
               ],
@@ -221,6 +221,7 @@ class Camera extends State<ImagePickerView> {
 
 
   }
+
   // カメラまたはライブラリから画像を取得
   void _getImageFromDevice(ImageSource source) async {
     // 撮影/選択したFileが返ってくる
@@ -229,19 +230,22 @@ class Camera extends State<ImagePickerView> {
     if (imageFile == null) {
       return;
     }
-    uploadImage(imageFile);
     setState(() {
       this.imageFile = imageFile;
     });
   }
   Future<ApiResults> _postBackend(String requests) async {
     // 撮影/選択したFileが返ってくる
-    String url = 'http://10.0.2.2/load:5000';
+    var uri = Uri.parse('http://10.0.2.2:5000/load');
     var request = new SampleRequest(URL: requests);
-    final response = await http.post(url,
+    final response = await http.post(uri,
         body: json.encode(request.toJson()),
         headers: {"Content-Type": "application/json"});
+    //await print("request${json.decode(response.body)}");
     if (response.statusCode == 200) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context)=>OcrList(object:json.decode(response.body)
+      )));
       return ApiResults.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed');
@@ -263,13 +267,16 @@ class SampleRequest {
   };
 }
 class ApiResults {
-  final String message;
+  final String statusCode;
+  final Map<String,dynamic> data;
   ApiResults({
-    this.message,
+    this.statusCode,
+    this.data
   });
   factory ApiResults.fromJson(Map<String, dynamic> json) {
     return ApiResults(
-      message: json['message'],
+        statusCode: json['status'],
+        data: json['data']
     );
   }
 }
