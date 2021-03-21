@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:cloudinary_client/cloudinary_client.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'profile.dart';
 class ImagePickerView extends StatefulWidget {
   @override
   State createState() {
@@ -11,6 +15,17 @@ class ImagePickerView extends StatefulWidget {
 
 //camera
 class Camera extends State<ImagePickerView> {
+  Future uploadImage(File image) async {
+    CloudinaryClient client = new CloudinaryClient('875774284867727', 'ie6_7wmFuWElndBI5b355c8YcpY', 'dagcggcea');
+    await client.uploadImage(image.path)
+        .then((result){
+          String tmp = result.url.toString();
+          _postBackend(tmp);
+          print("RESPOINDSNSDFI:: ==> result");
+      print("CLOUDINARY:: ${result.secure_url}==> result");
+    })
+        .catchError((error) => print("ERROR_CLOUDINARY::  $error"));
+  }
   File imageFile;
   //タイトル
   String ImageTitle = "タイトル名:";
@@ -126,7 +141,7 @@ class Camera extends State<ImagePickerView> {
                     ),
                     label: const Text('送信'),
                     onPressed:  !(imageFile != null) ? null : () {
-
+                      uploadImage(imageFile);
                     },
 
 
@@ -186,7 +201,6 @@ class Camera extends State<ImagePickerView> {
                       ),
                     ),
 
-
                   ],
                 ),
               ],
@@ -207,6 +221,7 @@ class Camera extends State<ImagePickerView> {
 
 
   }
+
   // カメラまたはライブラリから画像を取得
   void _getImageFromDevice(ImageSource source) async {
     // 撮影/選択したFileが返ってくる
@@ -219,10 +234,49 @@ class Camera extends State<ImagePickerView> {
       this.imageFile = imageFile;
     });
   }
+  Future<ApiResults> _postBackend(String requests) async {
+    // 撮影/選択したFileが返ってくる
+    var uri = Uri.parse('http://10.0.2.2:5000/load');
+    var request = new SampleRequest(URL: requests);
+    final response = await http.post(uri,
+        body: json.encode(request.toJson()),
+        headers: {"Content-Type": "application/json"});
+    //await print("request${json.decode(response.body)}");
+    if (response.statusCode == 200) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context)=>OcrList(object:json.decode(response.body)
+      )));
+      return ApiResults.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed');
+    }
+  }
   void _deleteImage()  {
     setState(() {
       this.imageFile = null ;
     });
   }
 }
-
+class SampleRequest {
+  final String URL;
+  SampleRequest({
+    this.URL
+  });
+  Map<String, dynamic> toJson() => {
+    'img_file':URL
+  };
+}
+class ApiResults {
+  final String statusCode;
+  final Map<String,dynamic> data;
+  ApiResults({
+    this.statusCode,
+    this.data
+  });
+  factory ApiResults.fromJson(Map<String, dynamic> json) {
+    return ApiResults(
+        statusCode: json['status'],
+        data: json['data']
+    );
+  }
+}
